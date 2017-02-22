@@ -16,7 +16,7 @@ namespace MvcCoreBoilerplate.Queries.GetOrder
         }
     }
 
-    public class GetOrderValidation : IMessageValidator<GetOrderQuery>
+    public class GetOrderValidation : IRequestValidator<GetOrderQuery>
     {
         public IEnumerable<ValidationFailure> Validate(GetOrderQuery request)
         {

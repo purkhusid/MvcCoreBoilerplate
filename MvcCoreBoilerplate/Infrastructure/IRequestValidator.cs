@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MvcCoreBoilerplate.Infrastructure
 {
-    public interface IMessageValidator<in T>
+    public interface IRequestValidator<in T>
     {
         IEnumerable<ValidationFailure> Validate(T request);
     }

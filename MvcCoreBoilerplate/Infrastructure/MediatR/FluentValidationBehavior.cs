@@ -10,9 +10,9 @@ namespace MvcCoreBoilerplate.Infrastructure.MediatR
 {
     public class FluentValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        private IEnumerable<IMessageValidator<TRequest>> validators;
+        private IEnumerable<IRequestValidator<TRequest>> validators;
 
-        public FluentValidationBehavior(IEnumerable<IMessageValidator<TRequest>> validators)
+        public FluentValidationBehavior(IEnumerable<IRequestValidator<TRequest>> validators)
         {
             this.validators = validators;
         }

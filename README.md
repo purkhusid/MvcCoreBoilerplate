@@ -10,3 +10,4 @@ Authorization behaviour
 Swagger docs
 Clean up
 Tests
+Middlewares (Logging, CorrelactionId, Exception handling)

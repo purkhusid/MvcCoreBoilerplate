@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using MvcCoreBoilerplate.Queries;
 using MvcCoreBoilerplate.Queries.GetOrder;
+using MvcCoreBoilerplate.DTO;
+using MvcCoreBoilerplate.Commands.SubmitOrder;
 
 namespace MvcCoreBoilerplate.Controllers
 {
@@ -19,14 +21,6 @@ namespace MvcCoreBoilerplate.Controllers
             this.mediator = mediator ?? throw new ArgumentNullException("mediator");
         }
 
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
         [HttpGet("{id}")]
         public async Task<string> Get(int id)
         {
@@ -35,8 +29,9 @@ namespace MvcCoreBoilerplate.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async void Post(SubmitOrderDTO orderDTO)
         {
+            await mediator.Send(new SubmitOrderCommand { Total = orderDTO.Total, Description = orderDTO.Description });
         }
 
         // PUT api/values/5
