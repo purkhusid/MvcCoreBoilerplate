@@ -14,12 +14,14 @@ using MvcCoreBoilerplate.Queries.GetOrder;
 using MvcCoreBoilerplate.Infrastructure.MediatR;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Serilog;
+using MvcCoreBoilerplate.Middleware;
 
 namespace MvcCoreBoilerplate
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -27,6 +29,17 @@ namespace MvcCoreBoilerplate
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            // Configure the Serilog pipeline
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.WithProperty("ApplicationName", "MvcCoreBoilerplate")
+                .Enrich.FromLogContext()
+                .WriteTo.Seq("http://localhost:5341")
+                .CreateLogger();
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddDebug();
+            loggerFactory.AddSerilog();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -49,10 +62,9 @@ namespace MvcCoreBoilerplate
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            app.UseCorrelationToken();
             app.UseDeveloperExceptionPage();
             app.UseMvc();
         }
