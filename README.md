@@ -4,10 +4,18 @@ Mediatr.Extensions.Microsoft.DependencyInjection - https://github.com/jbogard/Me
 FluentValidation 6.2.1 - https://github.com/JeremySkinner/fluentvalidation
 AutoFac
 Autofac.Extensions.DependencyInjection
+Serilog
+Serilog.Extensions.Logging
 
 TODO:
-Authorization behaviour
+Authentication/Authorization
 Swagger docs
-Clean up
 Tests
 Middlewares (Logging, CorrelactionId, Exception handling)
+Paket ?
+FAKE ?
+Explain why I'm using each package
+
+Find out if it is possible to add the CorrelationToken to request started and request ended log
+
+Clean up
